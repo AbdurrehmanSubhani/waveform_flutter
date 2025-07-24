@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart' show Colors;
 import 'package:flutter/widgets.dart';
 
 import 'amplitude.dart';
@@ -15,12 +16,14 @@ class AnimatedWaveList extends StatefulWidget {
   const AnimatedWaveList({
     required this.stream,
     this.barBuilder,
+    this.color,
     super.key,
   });
 
   final Stream<Amplitude> stream; // The stream of amplitude values.
   final Widget Function(Animation<double> animation, Amplitude amplitude)?
       barBuilder;
+  final Color? color;
 
   @override
   State<AnimatedWaveList> createState() => _AnimatedWaveListState();
@@ -39,7 +42,11 @@ class _AnimatedWaveListState extends State<AnimatedWaveList> {
   // Otherwise, a default [WaveFormBar] will be created.
   Widget _barBuilder(Animation<double> animation, Amplitude amplitude) =>
       widget.barBuilder?.call(animation, amplitude) ??
-      WaveFormBar(animation: animation, amplitude: amplitude);
+      WaveFormBar(
+        animation: animation,
+        amplitude: amplitude,
+        color: widget.color ?? Colors.cyan,
+      );
 
   // Builds a waveform bar widget for the given index and animation.
   Widget _buildItem(
